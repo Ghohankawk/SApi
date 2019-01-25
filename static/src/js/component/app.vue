@@ -23,7 +23,7 @@ export default {
 	vuex: {
 		getters: {
 			bgImgUrl: () => {
-				return store.state.userInfo.bg || '/dist/img/main_bg.png';
+				return store.state.userInfo.bg || '/dist/img/main_bg.jpg';
 			}
 		},
 		actions: actions
