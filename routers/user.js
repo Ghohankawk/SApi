@@ -63,7 +63,7 @@ const ldapClient = (ctx, email, pwd, remember, next) => {
                                     newUser.department = _arr[1] || '';
                                     newUser.role = _arr[2] || '';
                                     newUser.email = email;
-                                    newUser.bg = '/dist/img/main_bg.jpg';
+                                    newUser.bg = '/dist/img/main_bg.png';
                                     newUser.avatar = '/dist/img/user_avatar.gif';
                                     newUser.password = '';
                                     Users.create(newUser, function(err, doc) {
@@ -118,11 +118,11 @@ const register = (ctx) => {
                 reject('账号已存在');
             } else {
                const newUser = {};
-               newUser.name = email;
-               newUser.department = '';
-               newUser.role = '';
+               newUser.name = email.split("@")[0];
+               newUser.department = '搜索事业部';
+               newUser.role = '普通用户';
                newUser.email = email;
-               newUser.bg = '/dist/img/main_bg.jpg';
+               newUser.bg = '/dist/img/main_bg.png';
                newUser.avatar = '/dist/img/user_avatar.gif';
                newUser.password = md5(safeWord + pwd);
                Users.create(newUser, function(err, doc) {

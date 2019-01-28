@@ -1,9 +1,9 @@
 <template>
 	<section class="index">
 		<div class="desc">
-			<div class="all_center" style="top: 30%;">
-				<h2>搜狗API文档管理平台</h2>
-				<p>高效的API管理平台</p>
+			<div class="all_center" style="top: 10%;">
+				<h2>API文档管理平台</h2>
+				<p>高效的API文档在线管理平台</p>
 			</div>
 		</div>
 		<div class="login">
@@ -121,8 +121,8 @@
 	border: 1px solid rgba(255, 255, 255, 0.9);
 	border-radius: 6px;
 	position: fixed;
-	left: 75%;
-	top: 20%;
+	left: 50%;
+	top: 40%;
 	margin-left: -200px;
 	padding: 20px;
 	box-sizing: border-box;

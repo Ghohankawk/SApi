@@ -5,7 +5,7 @@
 			<div class="search">
 				<input type="text" v-model="searchStr" @keyup.enter="search()" debounce="300" placeholder="请输入名称/地址进行搜索"></input>
 			</div>
-			<a class="btn btn_success" v-show="titleMap[type] === undefined" href="javascript:void(0)" v-link="{name: 'apiEdit', params: {id: 'new'}, query: {projectId: type}}">新建接口</a>
+			<a class="btn btn_success" v-show="titleMap[type] == undefined" href="javascript:void(0)" v-link="{name: 'apiEdit', params: {id: 'new'}, query: {projectId: type}}">新建接口</a>
 		</m-top>
 		<m-middle>
 			<ul class="status">
@@ -246,6 +246,9 @@ export default {
 				queryParams.parent_project = this.type;
 			}
 			if (this.type === 'mine') {
+				queryParams.creator = this.userInfo._id;
+			}
+			if (this.type === 'coverme') {
 				queryParams.creator = this.userInfo._id;
 			}
 

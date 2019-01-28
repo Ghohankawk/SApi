@@ -35,26 +35,21 @@
 					<span class="main_p">第五步、客户端直接请求 `mock 服务根目录 + api_url` ，以及定义好的请求方式和请求参数，即可返回模拟数据（根据所勾选示例）</span>
 					<br>
 					<br>
-					<pre>
-						<code>
-$.ajax({
-	url: 'http://10.69.205.26:9090/mock573e881c0a26da2c7e4023ab/http://10.69.205.26:9090/api/projects'
-	type: 'get',
-	data: {
-		creator: '573e7b7d796923827d1ab00d',
-		limit: 1,
-		page: 2
-	},
-	success: function(res){
-		// ...
-	}
-})
-						</code>
-					</pre>
+					<p class="title">＃ 举例说明</p>
+					<span class="main_p">1、 如果线上的正常访问地址为，http://nginx01.zs.tc.ted:1997</span>
+					<br>
+					<span class="main_p">2、 那么线下mock的地址为，http://localhost:8989/mock/5c4afecb8bb0b791586fbeaa/http://nginx01.zs.tc.ted:1997</span>
+					<br>
+					<span class="main_p">3、 线上地址返回的结果为真实的数据，mock的结果是你勾选好的假数据</span>
+					<br>
+					<span class="main_p">4、 当线上接口开发完成，直接去掉前面的mock地址就可</span>
+					<br>
+					<span class="main_p">5、 mock后面的字符串是你项目的id，自动生成的，不同的项目字符串不同</span>
+					<br>
 				</div>
 				<div class="item">
 					<p class="title">＃ 项目托管地址</p>
-					<span class="main_p"><a style="color: #fff;" href="https://git.sogou-inc.com/ps-front/amp.git" target="_blank">https://git.sogou-inc.com/ps-front/amp.git</a></span>
+					<span class="main_p"><a style="color: #fff;" href="https://git.sogou-inc.com/ps-front/SApi.git" target="_blank">https://git.sogou-inc.com/ps-front/SApi.git</a></span>
 					<br>
 				</div>
 			</div>

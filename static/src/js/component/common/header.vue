@@ -1,7 +1,7 @@
 <template>
 	<header class="text_shadow">
 		<div class="flag">
-			<h2 v-link="{name: 'projectList', params: {type: 'all'}}">SApi</h2>
+			<h2 v-link="{name: 'projectList', params: {type: 'all'}}">API文档管理平台</h2>
 		</div>
 		<div class="user">
 			<a href="javascript:void(0)" class="btn btn_danger" @click="logout()">退出</a>

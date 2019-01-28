@@ -69,7 +69,7 @@ export default {
 	},
 	plugins: [
 		new CopyWebpackPlugin([{
-			from: path.join(rootPath, './static/src/img/main_bg.jpg'),
+			from: path.join(rootPath, './static/src/img/main_bg.png'),
 			to: path.join(rootPath, './static/dist/img/')
 		}, {
 			from: path.join(rootPath, './static/src/img/main_bg2.png'),

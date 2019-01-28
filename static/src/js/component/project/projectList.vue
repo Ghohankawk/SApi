@@ -158,6 +158,9 @@ export default {
 			if (this.type === 'mine') {
 				queryParams.members = this.userInfo._id;
 			}
+			if (this.type === 'coverme') {
+				queryParams.members = this.userInfo._id;
+			}
 			queryParams.limit = this.paginationConf.itemsPerPage;
 			queryParams.page = this.paginationConf.currentPage;
 			this.$http({

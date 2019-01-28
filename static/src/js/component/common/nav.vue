@@ -9,6 +9,7 @@
 			<div class="desc">
 				<p>{{userInfo.name}}</p>
 				<p>{{userInfo.role}}</p>
+				<p>{{userInfo.department}}</p>
 				<p>{{userInfo.email}}</p>
 			</div>
 		</div>
@@ -20,14 +21,14 @@
 						<p>我的项目</p>
 						<i class="iconfont">&#xe604;</i>
 					</li>
-					<!-- <li v-link="{name: 'apiList', params: {type: 'mine'}}">
+					<li v-link="{name: 'apiList', params: {type: 'mine'}}">
 						<span class="iconfont">&#xe605;</span>
 						<p>我的API</p>
 						<i class="iconfont">&#xe604;</i>
-					</li> -->
+					</li>
 				</ul>
 			</div>
-			<!-- <div class="item">
+			<div class="item">
 				<ul>
 					<li v-link="{name: 'projectList', params: {type: 'coverme'}}">
 						<span class="iconfont">&#xe606;</span>
@@ -40,7 +41,7 @@
 						<i class="iconfont">&#xe604;</i>
 					</li>
 				</ul>
-			</div> -->
+			</div>
 			<div class="item">
 				<ul>
 					<li v-link="{name: 'projectList', params: {type: 'all'}}">
@@ -48,11 +49,11 @@
 						<p>全部项目</p>
 						<i class="iconfont">&#xe604;</i>
 					</li>
-					<!-- <li v-link="{name: 'apiList', params: {type: 'all'}}">
+					<li v-link="{name: 'apiList', params: {type: 'all'}}">
 						<span class="iconfont">&#xe605;</span>
 						<p>全部API</p>
 						<i class="iconfont">&#xe604;</i>
-					</li> -->
+					</li>
 				</ul>
 			</div>
 			<div class="item">

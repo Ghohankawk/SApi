@@ -114,7 +114,42 @@
 					</div>
 				</div>
 				<div class="item">
-					<p class="title">13 备注</p>
+					<p class="title">13 接口请求</p>
+					<div class="post_man">
+						<div class="request request_url">
+							<select v-model="urlType" @change="changeUrl()">
+								<option value="real">真实地址</option>
+								<option value="mock">模拟地址</option>
+							</select>
+							<input type="text" placeholder="请输入URL" v-model="url"/>
+							<select v-model="type">
+								<option value="get">GET</option>
+								<option value="post">POST</option>
+								<option value="put">PUT</option>
+								<option value="delete">DELETE</option>
+							</select>
+						</div>
+						<div class="request request_btn_group">
+							<a href="javascript:void(0)" class="btn btn_success" @click="addParams()">增加参数</a>
+						</div>
+						<div class="request request_params">
+							<div class="item" v-for="item in params">
+								<input type="text" placeholder="参数" v-model="item.key"></input>
+								<input type="text" placeholder="值" v-model="item.value"></input>
+								<span class="iconfont" @click="deleteParams($index)">&#xe607;</span>
+							</div>
+						</div>
+						<div class="request request_btn_group">
+							<a href="javascript:void(0)" class="btn btn_success" @click="send()">{{status}}</a>
+						</div>
+						<div class="request request_result">
+							<p>接口结果</p>
+							<pre><code id="code"></code></pre>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<p class="title">14 备注</p>
 					<div class="wangEditor-container default_char" style="border-radius: 4px;background-color: rgba(255,255,255,0.9);">
 						<div class="wangEditor-txt" v-if="apiDetail.remark">{{{apiDetail.remark}}}</div>
 						<div class="wangEditor-txt" v-else>
@@ -180,6 +215,67 @@ table tbody {
 table tbody td {
 	border-top: 1px solid #aaa;
 }
+
+.post_man {
+	padding: 0 20px;
+	box-sizing: border-box;
+}
+
+.post_man .request {
+	margin: 20px 0;
+}
+
+.post_man .request_url {}
+
+.post_man .request_url input {
+	width: 400px;
+}
+
+.post_man .request_url select {
+	width: 100px;
+}
+
+.post_man .request_params {}
+
+.post_man .request_params .item {
+	margin-top: 10px;
+}
+
+.post_man .request_params .item input {
+	width: 250px;
+}
+
+.post_man .request_params .item span {
+	cursor: pointer;
+	font-size: 18px;
+	margin-left: 5px;
+	color: #ddd;
+	font-weight: bold;
+	text-shadow: none;
+	transition: all ease 0.2s;
+}
+
+.post_man .request_params .item span:hover {
+	color: #fff;
+}
+
+.post_man .request_btn_group {}
+
+.post_man .request_btn_group a {
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 0;
+}
+
+.post_man .request_result {}
+
+.post_man .request_result p {
+	border-bottom: 1px solid #fff;
+}
+
+.post_man .request_result pre {
+	/*margin-top: 10px;*/
+}
 </style>
 <script>
 // container component
@@ -190,6 +286,9 @@ import conBottom from '../container/bottom.vue';
 
 import store from 'store';
 import actions from 'actions';
+
+import CodeMirror from 'codemirror/lib/codemirror.js';
+import 'codemirror/mode/javascript/javascript.js';
 
 import jsbeautifier from 'js-beautify';
 
@@ -205,7 +304,14 @@ export default {
 			response_example: {
 				exapmle_array: [],
 				in_use: 0
-			}
+			},
+			url: '',
+			urlType: 'real',
+			type: 'get',
+			params: [],
+			jsonValue: '',
+			editor: '',
+			status: '发送'
 		};
 	},
 	components: {
@@ -240,6 +346,14 @@ export default {
 					if (this.isLogin) {
 						const resData = res.data;
 						this.apiDetail = resData.data.result[0];
+						this.url = resData.data.result[0].url;
+						let requestParams = resData.data.result[0].request_params;
+						for (let i = 0; i < requestParams.length; i++) {
+							this.params.push({
+								key: requestParams[i].key,
+								value: ''
+							});
+						}
 						this.creator = resData.data.result[0].creator;
 						this.parent_project = resData.data.result[0].parent_project;
 						this.response_example = resData.data.result[0].response_example;
@@ -249,11 +363,62 @@ export default {
 			}
 		}
 	},
+	ready() {
+		this.editor = CodeMirror(document.getElementById('code'), {
+			value: '',
+			lineNumbers: true,
+			theme: 'eclipse',
+			readOnly: 'nocursor',
+			styleActiveLine: true,
+			matchBrackets: true
+		});
+	},
 	methods: {
 		edit() {
 			this.$route.router.go('/main/api/edit/' + this.id);
 		},
-		jsbeautifier: jsbeautifier
+		jsbeautifier: jsbeautifier,
+
+		changeUrl() {
+			if (this.urlType === 'mock') {
+				this.url = window.location.origin + '/mock/' + this.apiDetail.parent_project._id + '/' + this.apiDetail.url;
+			} else {
+				this.url = this.apiDetail.url;
+			}
+		},
+		addParams() {
+			this.params.push({
+				key: '',
+				value: ''
+			});
+		},
+		deleteParams(index) {
+			this.params.splice(index, 1);
+		},
+		send() {
+			const resultParams = {};
+			for (var item of this.params) {
+				if (item.key !== '') {
+					resultParams[item.key] = item.value;
+				}
+			}
+			if (this.url === '') {
+				return;
+			}
+			this.status = '获取中...';
+			this.$http({
+				url: '/postman',
+				method: 'post',
+				data: {
+					url: this.url,
+					type: this.type,
+					params: resultParams
+				}
+			}).then((res) => {
+				this.status = '发送';
+				this.editor.setValue(jsbeautifier(JSON.stringify(res.data)));
+			});
+		}
 	}
 };
 </script>
